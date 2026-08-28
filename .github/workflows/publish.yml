@@ -1,0 +1,30 @@
+name: NuGet.org Trusted Publishing lab
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-package:
+    runs-on: ubuntu-latest
+    environment: nuget
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build and pack without publishing
+        run: >-
+          dotnet pack
+          src/S1eepeng.NuGetOidcReplayLab/S1eepeng.NuGetOidcReplayLab.csproj
+          --configuration Release
+          --output artifacts
+
